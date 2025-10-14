@@ -1,0 +1,301 @@
+<Component name="CompHostDetails">
+  <Link to="/hosts" textDecoration="none">
+    <Icon name="chevronleft" size="sm" color="$textColor-secondary" />
+    <Text value="Back to Hosts List" fontSize="$fontSize-sm" variant="link" />
+  </Link>
+
+  <Card width="100%">
+    <CHStack>
+      <CHStack gap="$gap-tight">
+        <H2 value="{$props.host.hostname}" />
+
+        <Text
+          value="{$props.host.host.name}"
+          color="$textColor-secondary"
+          when="{$props.host.hostname !== $props.host.host.name}"
+        />
+        <HStack when="{$props.host.host}" gap="$gap-tight">
+          <Link
+            to="{$props.host.host.url}"
+            target="_blank"
+            when="{$props.host.host.url}"
+          >
+            <Icon name="hyperlink" />
+          </Link>
+        </HStack>
+      </CHStack>
+
+      <SpaceFiller />
+
+      <Items data="{$props.host.host.tags}">
+        <Badge value="{$item}" />
+      </Items>
+    </CHStack>
+  </Card>
+
+  <HSplitter>
+    <VStack>
+      <H3>Hardware</H3>
+
+      <CompLabelValueList
+        items="{[
+          {label: 'CPU', value: $props.host.hardware.cpuCount},
+          {label: 'RAM', value: $props.host.hardware.ramTotal, suffix: 'GB'},
+          {label: 'Disk', value: $props.host.hardware.diskRoot, suffix: 'GB'},
+        ]}"
+      />
+
+      <H3>Time / Locale</H3>
+
+      <CompLabelValueList
+        items="{[
+          {label: 'Timezone', value: $props.host.timezone},
+          {label: 'NTP', value: $props.host.clock.ntp_availability},
+          {label: 'Time Sync', value: $props.host.clock.time_sync_status},
+        ]}"
+      />
+    </VStack>
+
+    <VStack>
+      <H3>Cloud</H3>
+
+      <CompLabelValueList
+        items="{[
+          {label: 'Name', value: $props.host.cloud.name},
+          {label: 'ID', value: $props.host.cloud.id},
+          {label: 'Type', value: $props.host.cloud.hostType},
+          {label: 'Region', value: $props.host.cloud.hostRegion},
+          {label: 'Availability Zone', value: $props.host.cloud.hostAvailabilityZone},
+          {label: 'Local Hostname', value: $props.host.cloud.hostLocalHostname},
+          {label: 'Local Address', value: $props.host.cloud.hostLocalAddress},
+          {label: 'Remote Hostname', value: $props.host.cloud.hostRemoteHostname},
+          {label: 'Remote Address', value: $props.host.cloud.hostRemoteAddress},
+          {label: 'Reserved Address', value: $props.host.cloud.hostReservedAddress},
+        ]}"
+      />
+    </VStack>
+  </HSplitter>
+
+  <HSplitter>
+    <VStack>
+      <H3>Kernel</H3>
+
+      <CompLabelValueList
+        items="{[
+          {label: 'Node', value: $props.host.kernel.node},
+          {label: 'Name', value: $props.host.kernel.name},
+          {label: 'Release', value: $props.host.kernel.release},
+          {label: 'Version', value: $props.host.kernel.version},
+          {label: 'Machine', value: $props.host.kernel.machine},
+          {label: 'OS', value: $props.host.kernel.os},
+        ]}"
+      />
+    </VStack>
+
+    <VStack>
+      <H3>Distribution</H3>
+
+      <CompLabelValueList
+        items="{[
+          {label: 'ID', value: $props.host.distribution.id},
+          {label: 'Name', value: $props.host.distribution.name},
+          {label: 'Version', value: $props.host.distribution.version},
+          {label: 'Release', value: $props.host.distribution.release},
+          {label: 'Codename', value: $props.host.distribution.codename},
+          {label: 'Description', value: $props.host.distribution.description},
+        ]}"
+      />
+    </VStack>
+  </HSplitter>
+
+  <H3>Authorized SSH Keys</H3>
+
+  <Card padding="0">
+    <Table
+      data="{$props.host.authorizedSshKeys}"
+      iconNoSort="close"
+      maxHeight="100%"
+      maxWidth="100%"
+    >
+      <Column bindTo="isKnown" header="Known?" width="80px">
+        <Icon name="checkmark" color="$color-success" when="{$item.isKnown}" />
+        <Icon name="close" color="$color-warning" when="{!$item.isKnown}" />
+      </Column>
+      <Column bindTo="type" width="100px" />
+      <Column bindTo="length" width="80px" />
+      <Column bindTo="comment" />
+      <Column bindTo="fingerprint">
+        <Icon
+          name="copy"
+          size="sm"
+          color="$textColor-secondary"
+          marginRight="1em"
+          onClick="navigator.clipboard.writeText($item.fingerprint); toast('SSH key fingerprint copied to clipboard')"
+        />
+        <Text
+          value="{$item.fingerprint}"
+          variant="mono"
+          color="$textColor-subtitle"
+        />
+      </Column>
+      <Column bindTo="data">
+        <Icon
+          name="copy"
+          size="sm"
+          color="$textColor-secondary"
+          marginRight="1em"
+          onClick="navigator.clipboard.writeText($item.data); toast('SSH key copied to clipboard')"
+        />
+        <Text value="{$item.data}" variant="mono" color="$textColor-subtitle" />
+      </Column>
+    </Table>
+  </Card>
+
+  <H3>Public SSH Host Keys</H3>
+
+  <List data="{$props.host.publicSshHostKeys}" gap="$gap-loose">
+    <property name="itemTemplate">
+      <Card>
+        <HStack verticalAlign="center">
+          <HStack width="120px" marginRight="1em">
+            <Text
+              value="{$item.type}"
+              fontWeight="$fontWeight-bold"
+              color="$textColor-secondary"
+            />
+            <SpaceFiller />
+            <Text
+              value="{$item.length}"
+              fontWeight="$fontWeight-light"
+              color="$textColor-secondary"
+            />
+          </HStack>
+          <HStack>
+            <Icon
+              name="copy"
+              size="sm"
+              color="$textColor-secondary"
+              onClick="navigator.clipboard.writeText($item.fingerprint); toast('SSH key fingerprint copied to clipboard')"
+            />
+            <Text
+              value="{$item.fingerprint}"
+              variant="mono"
+              color="$textColor-subtitle"
+            />
+          </HStack>
+          <SpaceFiller />
+          <Text value="{$item.comment}" color="$textColor-secondary" />
+        </HStack>
+
+        <Stack orientation="horizontal" verticalAlignment="center">
+          <Text
+            variant="mono"
+            fontSize="$fontSize-sm"
+            color="$textColor-secondary"
+            maxLines="1"
+            ellipses="true"
+            vertivalAlign="center"
+          >
+            <Icon
+              name="copy"
+              size="sm"
+              color="$textColor-secondary"
+              marginRight="1em"
+              onClick="navigator.clipboard.writeText($item.data); toast('SSH key copied to clipboard')"
+            />
+            {$item.data}
+          </Text>
+        </Stack>
+      </Card>
+    </property>
+  </List>
+
+  <H3>Docker Containers</H3>
+
+  <Card when="{$props.host.dockerContainers == null}">
+    <VStack horizontalAlignment="center">
+      <NoResult hideIcon="false" width="50%" label="No Docker Service Found" />
+    </VStack>
+  </Card>
+
+  <List
+    data="{$props.host.dockerContainers}"
+    gap="$gap-loose"
+    when="{$props.host.dockerContainers != null}"
+  >
+    <property name="emptyListTemplate">
+      <Card>
+        <VStack horizontalAlignment="center">
+          <NoResult hideIcon="false" width="50%" />
+        </VStack>
+      </Card>
+    </property>
+    <property name="itemTemplate">
+      <Card>
+        <HStack verticalAlign="center">
+          <Icon
+            name="play"
+            size="md"
+            color="$color-success"
+            when="{$item.running}"
+          />
+          <Icon
+            name="pause"
+            size="md"
+            color="$color-warning"
+            when="{!$item.running}"
+          />
+          <Text
+            value="{$item.name}"
+            variant="mono"
+            color="$textColor-subtitle"
+          />
+          <SpaceFiller />
+          <Text value="{$item.image}" color="$textColor-secondary" />
+          <Text
+            value="{$item.created}"
+            variant="mono"
+            color="$textColor-secondary"
+          />
+        </HStack>
+      </Card>
+    </property>
+  </List>
+
+  <HSplitter>
+    <VStack>
+      <H3>Systemd Services</H3>
+
+      <List data="{$props.host.systemdServices}" gap="$gap-loose">
+        <property name="itemTemplate">
+          <Card>
+            <Text value="{$item}" color="$textColor-secondary" />
+          </Card>
+        </property>
+      </List>
+    </VStack>
+
+    <VStack>
+      <H3>Systemd Timers</H3>
+
+      <List data="{$props.host.systemdTimers}" gap="$gap-loose">
+        <property name="itemTemplate">
+          <Card>
+            <Text value="{$item}" color="$textColor-secondary" />
+          </Card>
+        </property>
+      </List>
+    </VStack>
+  </HSplitter>
+
+  <Fragment when="{$props.host.host.data}">
+    <H3>Extra Host Data</H3>
+
+    <TextArea
+      initialValue="{JSON.stringify($props.host.host.data, null, 4)}"
+      minRows="{10}"
+      maxRows="{24}"
+      readOnly="{true}"
+    />
+  </Fragment>
+</Component>

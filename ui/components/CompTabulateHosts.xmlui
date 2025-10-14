@@ -1,0 +1,81 @@
+<Component name="CompTabulateHosts">
+  <Table
+    data="{$props.hosts}"
+    iconNoSort="close"
+    maxHeight="100%"
+    maxWidth="100%"
+  >
+    <Column bindTo="hostname" pinTo="left" width="200px" header="Host">
+      <HStack gap="$gap-none">
+        <Link to="/hosts/{$item.id}" marginRight="1em">
+          <Icon name="binding" size="md" />
+        </Link>
+        <VStack gap="$gap-none">
+          <HStack when="{$item.host}" gap="$gap-tight">
+            <Link to="{$item.host.url}" target="_blank" when="{$item.host.url}">
+              <Icon name="hyperlink" />
+            </Link>
+            <Text>{$item.host.name}</Text>
+          </HStack>
+          <Text
+            value="{$item.hostname}"
+            color="$textColor-secondary"
+            when="{$item.hostname !== $item.host.name}"
+          />
+        </VStack>
+      </HStack>
+    </Column>
+    <Column bindTo="cloud.label" header="Cloud" width="200px">
+      <VStack gap="$gap-none">
+        <Text value="{$item.cloud.label}" when="{$item.cloud.label}" />
+        <Icon name="close" color="$color-warning" when="{!$item.cloud.label}" />
+        <HStack when="{$item.cloud.hostRegion}" gap="$gap-tight">
+          <Text
+            value="{$item.cloud.hostRegion}"
+            color="$textColor-subtitle"
+            when="{$item.cloud.hostRegion}"
+          />
+          <Text color="$textColor-subtitle" when="{$item.cloud.hostType}">
+            {$item.cloud.hostType}
+          </Text>
+        </HStack>
+      </VStack>
+    </Column>
+    <Column bindTo="timezone">
+      <Text>{$item.timezone.split(" ")[0]}</Text>
+    </Column>
+    <Column bindTo="distribution.description" header="Distro">
+      <Text>{$item.distribution.description}</Text>
+    </Column>
+    <Column bindTo="kernel.machine" header="Arch" />
+    <Column bindTo="hardware.cpuCount" header="CPU" />
+    <Column bindTo="hardware.ramTotal" header="RAM" />
+    <Column bindTo="hardware.diskRoot" header="Disk" />
+    <Column bindTo="dockerContainers.length" header="Docker">
+      <HStack gap="$gap-tight" when="{$item.dockerContainers !== null}">
+        {$item.dockerContainers.filter(x => x.running).length}
+        /
+        {$item.dockerContainers.length}
+      </HStack>
+      <Icon
+        name="close"
+        color="$color-warning"
+        when="{$item.dockerContainers == null}"
+      />
+    </Column>
+    <Column bindTo="uniqueAuthorizedSshKeysCount" header="SSH Keys" />
+    <Column bindTo="systemdServices.length" header="Systemd">
+      <HStack gap="$gap-tight">
+        {$item.systemdServices.length} / {$item.systemdTimers.length}
+      </HStack>
+    </Column>
+    <Column bindTo="clock.time_sync_status" header="Time Sync" />
+    <Column header="Tags" width="2*">
+      <HStack gap="$gap-tight">
+        <Items data="{$item.host.tags}">
+          <Badge value="{$item}" />
+        </Items>
+      </HStack>
+    </Column>
+  </Table>
+</Component>

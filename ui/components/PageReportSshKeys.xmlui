@@ -1,0 +1,18 @@
+<Component name="PageReportSshKeys">
+  <Card padding="0">
+    <Table
+      data="{$props.report.sshKeysReport}"
+      iconNoSort="close"
+      maxHeight="100%"
+      maxWidth="100%"
+    >
+      <Column bindTo="fingerprint" />
+      <Column bindTo="type" width="100px" />
+      <Column bindTo="length" width="80px" />
+      <Column bindTo="knownAs" header="Known As" />
+      <Column bindTo="seenOn.length" header="# of Seen On" width="120px" />
+      <Column bindTo="seenOn" header="Seen On" />
+      <Column bindTo="seenAs" header="Seen As" />
+    </Table>
+  </Card>
+</Component>

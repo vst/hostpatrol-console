@@ -1,0 +1,55 @@
+{
+  "name": "hostpatrol-console",
+  "description": "Host Patrol Console Application",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "format:prettier": "prettier --write .",
+    "format": "npm run format:prettier",
+    "lint:format:prettier": "prettier --check .",
+    "lint:format": "npm run lint:format:prettier",
+    "lint": "npm run lint:format",
+    "check:format": "npm run check:format:prettier",
+    "check": "npm run lint && npm run build",
+    "clean": "rm -rf dist",
+    "preview": "vite preview",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "xmlui": "^0.10.19"
+  },
+  "devDependencies": {
+    "@prettier/plugin-xml": "^3.4.2",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "vite": "^7.1.9",
+    "vite-plugin-static-copy": "^3.1.3"
+  },
+  "prettier": {
+    "printWidth": 80,
+    "proseWrap": "always",
+    "useTabs": false,
+    "plugins": [
+      "@prettier/plugin-xml"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "*.js",
+          "*.ts"
+        ],
+        "options": {
+          "singleQuote": false
+        }
+      },
+      {
+        "files": "*.xmlui",
+        "options": {
+          "parser": "xml",
+          "xmlWhitespaceSensitivity": "ignore",
+          "xmlQuoteAttributes": "double"
+        }
+      }
+    ]
+  }
+}

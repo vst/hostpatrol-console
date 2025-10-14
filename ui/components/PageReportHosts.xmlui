@@ -1,0 +1,5 @@
+<Component name="PageReportHosts">
+  <Card padding="0" gap="0">
+    <CompTabulateHosts hosts="{$props.hosts}" />
+  </Card>
+</Component>

@@ -1,0 +1,7 @@
+<Component name="PageReportHostDetails">
+  <Fragment when="{!$props.host}">
+    <Redirect to="/hosts" />
+  </Fragment>
+
+  <CompHostDetails host="{$props.host}" when="{$props.host}" />
+</Component>

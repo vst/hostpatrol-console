@@ -1,0 +1,27 @@
+<Component name="CompLabelValueList">
+  <List data="{$props.items}" gap="$gap-loose">
+    <property name="itemTemplate">
+      <Card>
+        <HStack verticalAlign="center">
+          <Text
+            value="{$item.label}"
+            fontWeight="$fontWeight-bold"
+            color="$textColor-secondary"
+          />
+          <SpaceFiller />
+          <Text
+            value="{$item.prefix}"
+            color="$textColor-subtitle"
+            when="{$item.prefix}"
+          />
+          <Text value="{$item.value}" color="$textColor-primary" />
+          <Text
+            value="{$item.suffix}"
+            color="$textColor-subtitle"
+            when="{$item.suffix}"
+          />
+        </HStack>
+      </Card>
+    </property>
+  </List>
+</Component>

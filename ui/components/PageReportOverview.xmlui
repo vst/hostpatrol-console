@@ -1,0 +1,63 @@
+<Component name="PageReportOverview">
+  <Fragment when="{$props.report.errors.length > 0}">
+    <Card
+      title="Errors"
+      subtitle="Issues encountered during the last report generation"
+      backgroundColor="$color-danger-50"
+      color="$color-danger-500"
+    >
+      <List data="{$props.report.errors}">
+        <property name="itemTemplate">
+          <Card backgroundColor="$color-danger-100" color="$color-danger-600">
+            <HStack verticalAlignment="center">
+              <Icon name="info" />
+              <Text value="{$item.host}" variant="strong" />
+            </HStack>
+            <HStack>
+              <Text value="{$item.message}" color="$color-danger-700" />
+            </HStack>
+          </Card>
+        </property>
+      </List>
+    </Card>
+  </Fragment>
+
+  <Splitter height="100%" orientation="horizontal">
+    <Card title="Operating Systems">
+      <Spinner when="{$props.report.inProgress}" />
+      <CompSimpleBarChart data="{$props.report.charts.oss}" height="250px" />
+    </Card>
+
+    <Card title="Clouds">
+      <Spinner when="{$props.report.inProgress}" />
+      <CompSimpleBarChart data="{$props.report.charts.clouds}" height="250px" />
+    </Card>
+  </Splitter>
+
+  <Splitter height="100%" orientation="horizontal">
+    <Card title="SSH Keys">
+      <Spinner when="{$props.report.inProgress}" />
+      <CompSimpleBarChart
+        data="{$props.report.charts.sshKeys}"
+        height="250px"
+      />
+    </Card>
+
+    <Card title="Timezones">
+      <Spinner when="{$props.report.inProgress}" />
+      <CompSimpleBarChart
+        data="{$props.report.charts.timezones}"
+        height="250px"
+      />
+    </Card>
+  </Splitter>
+
+  <HStack>
+    <Text>
+      The data of this report is gathered and compiled by Host Patrol
+      v{$props.report.meta.version} on
+      {formatDate($props.report.meta.timestamp)} at
+      {formatTime($props.report.meta.timestamp)}.
+    </Text>
+  </HStack>
+</Component>

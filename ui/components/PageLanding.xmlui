@@ -1,0 +1,21 @@
+<Component name="PageLanding">
+  <Stack horizontalAlignment="center">
+    <Card title="Load Host Patrol Report" maxWidth="380px">
+      <Text>
+        Choose a Host Patrol generated report file from your computer to load
+        it.
+      </Text>
+
+      <Text>
+        It will be saved and processed locally in your browser, and will not be
+        sent to any server.
+      </Text>
+
+      <FileInput
+        buttonIcon="drive"
+        placeholder="Upload Host Patrol Report"
+        onDidChange="(file) => emitEvent('selected', file[0])"
+      />
+    </Card>
+  </Stack>
+</Component>

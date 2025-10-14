@@ -11,8 +11,14 @@ further information:
 >
 > This repository needs a proper README file.
 
+## License
+
+This project is licensed under the MIT License. See the [LICENSE] file for
+details.
+
 <!-- REFERENCES -->
 
 [console.hostpatrol.io]: https://console.hostpatrol.io
 [hostpatrol-website]: https://www.hostpatrol.io
 [hostpatrol-cli-app]: https://github.com/vst/hostpatrol
+[LICENSE]: ./LICENSE

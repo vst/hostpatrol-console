@@ -1,0 +1,9 @@
+<Component name="CompSimpleBarChart">
+  <BarChart
+    data="{$props.data}"
+    xKey="label"
+    yKeys="{['count']}"
+    orientation="horizontal"
+    height="{$props.height}"
+  />
+</Component>

@@ -1,0 +1,111 @@
+<App name="Host Patrol Console" layout="horizontal">
+  <AppState id="report" initialValue="{{ instance: loadData() }}" />
+
+  <AppHeader>
+    <property name="logoTemplate">
+      <Heading level="h1" value="Host Patrol Console" />
+    </property>
+    <SpaceFiller />
+    <HStack>
+      <Link label="Docs" to="https://www.hostpatrol.io" target="_blank" />
+      <ToneSwitch />
+    </HStack>
+  </AppHeader>
+
+  <NavPanel when="{report.value}">
+    <NavLink
+      label="{report.value.instance ? 'Overview' : 'Load Data'}"
+      to="/"
+    />
+    <NavLink label="Hosts" to="/hosts" when="{report.value.instance.data}" />
+    <NavLink
+      label="SSH Keys"
+      to="/ssh-keys"
+      when="{report.value.instance.data}"
+      marginRight="2em"
+    />
+    <NavLink
+      icon="refresh"
+      iconColor="red"
+      label="Clear"
+      onClick="clearData(); report.update({instance: null});"
+      when="{report.value.instance}"
+    />
+  </NavPanel>
+
+  <Pages when="{report.value}">
+    <Page url="/">
+      <PageLanding
+        onSelected="(x) => loadFile(x, (instance) => report.update({ instance }))"
+        when="{!report.value.instance}"
+      />
+
+      <CHStack when="{report.value.instance.error}">
+        <Stack width="380px">
+          <Card backgroundColor="$color-danger-100" color="$color-danger-600">
+            <HStack verticalAlignment="center">
+              <Icon name="error" size="lg" />
+              <Text value="Error" variant="title" />
+            </HStack>
+            <HStack>
+              <Text
+                value="{report.value.instance.error}"
+                color="$color-danger-700"
+                overflowMode="flow"
+              />
+            </HStack>
+            <HStack>
+              <Button
+                icon="refresh"
+                label="Start Over"
+                variant="solid"
+                themeColor="attention"
+                onClick="report.update({instance: null}); clearData();"
+              />
+            </HStack>
+          </Card>
+        </Stack>
+      </CHStack>
+
+      <PageReportOverview
+        report="{report.value.instance.data}"
+        when="{report.value.instance.data}"
+      />
+    </Page>
+
+    <Page url="/hosts">
+      <Redirect
+        to="/"
+        when="{!report.value.instance || report.value.instance.error}"
+      />
+
+      <PageReportHosts
+        hosts="{report.value.instance.data.hosts}"
+        when="{report.value.instance.data}"
+      />
+    </Page>
+
+    <Page url="/hosts/:id">
+      <Redirect
+        to="/"
+        when="{!report.value.instance || report.value.instance.error}"
+      />
+
+      <PageReportHostDetails
+        host="{report.value.instance.data.hosts.find(h => h.id === Number.parseInt($routeParams.id))}"
+        when="{report.value.instance.data}"
+      />
+    </Page>
+
+    <Page url="/ssh-keys">
+      <Redirect
+        to="/"
+        when="{!report.value.instance || report.value.instance.error}"
+      />
+      <PageReportSshKeys
+        report="{report.value.instance.data}"
+        when="{report.value.instance.data}"
+      />
+    </Page>
+  </Pages>
+</App>

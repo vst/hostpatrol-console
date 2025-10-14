@@ -1,0 +1,28 @@
+# Node dependencies:
+/node_modules/
+
+# Build artifacts
+/dist/
+/public/
+/*.tar.gz
+/*.zip
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# IDEs/editors
+.vscode/
+.idea/
+*.sw?
+*~
+
+# Logs
+*.log
+
+# Nix
+/.direnv
+/.envrc
+
+# Others
+/tmp
