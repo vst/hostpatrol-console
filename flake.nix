@@ -2,7 +2,7 @@
   description = "Host Patrol Console Application";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -14,7 +14,7 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = [
-            pkgs.nodejs_22
+            pkgs.nodejs
             pkgs.vscode-langservers-extracted
           ];
         };
