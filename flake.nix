@@ -3,21 +3,20 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts.url = "github:hercules-ci/flake-parts";
   };
 
-  outputs = { flake-utils, nixpkgs, ... }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = import nixpkgs { inherit system; };
-      in
-      {
-        devShell = pkgs.mkShell {
+  outputs = inputs@{ flake-parts, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = inputs.nixpkgs.lib.systems.flakeExposed;
+
+      perSystem = { pkgs, ... }: {
+        devShells.default = pkgs.mkShell {
           buildInputs = [
             pkgs.nodejs
             pkgs.vscode-langservers-extracted
           ];
         };
-      }
-    );
+      };
+    };
 }
