@@ -5,25 +5,24 @@
   "scripts": {
     "dev": "vite",
     "format:prettier": "prettier --write .",
-    "format": "npm run format:prettier",
+    "format": "pnpm run format:prettier",
     "lint:format:prettier": "prettier --check .",
-    "lint:format": "npm run lint:format:prettier",
-    "lint": "npm run lint:format",
-    "check:format": "npm run check:format:prettier",
-    "check": "npm run lint && npm run build",
+    "lint:format": "pnpm run lint:format:prettier",
+    "lint": "pnpm run lint:format",
+    "check": "pnpm run lint && pnpm run build",
     "clean": "rm -rf dist",
     "preview": "vite preview",
     "build": "vite build"
   },
   "dependencies": {
-    "xmlui": "^0.11.24"
+    "xmlui": "0.11.24"
   },
   "devDependencies": {
     "@prettier/plugin-xml": "^3.4.2",
-    "prettier": "^3.7.4",
-    "typescript": "^5.9.3",
-    "vite": "^7.3.0",
-    "vite-plugin-static-copy": "^3.1.4"
+    "prettier": "^3.9.6",
+    "typescript": "^7.0.2",
+    "vite": "^7.3.6",
+    "vite-plugin-static-copy": "^3.4.0"
   },
   "prettier": {
     "printWidth": 80,

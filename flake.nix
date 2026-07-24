@@ -14,6 +14,7 @@
         devShells.default = pkgs.mkShell {
           buildInputs = [
             pkgs.nodejs
+            pkgs.pnpm
             pkgs.vscode-langservers-extracted
           ];
         };
